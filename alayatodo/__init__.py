@@ -2,7 +2,7 @@ from flask import Flask, g
 import sqlite3
 
 # configuration
-DATABASE = '/tmp/alayatodo.db'
+DATABASE = './alayatodo.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -19,9 +19,11 @@ def connect_db():
     return conn
 
 
-@app.before_request
-def before_request():
-    g.db = connect_db()
+def get_db():
+    db = getattr(g, 'db', None)
+    if db is None:
+        db = g._db = connect_db()
+    return db
 
 
 @app.teardown_request
