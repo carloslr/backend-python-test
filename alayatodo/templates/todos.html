@@ -4,15 +4,24 @@
 <div class="col-md-4 col-md-offset-4">
     <h1>Todo List:</h1>
     <table class="table table-striped">
-        <th>#</th><th>User</th><th>Description</th><th></th>
+        <th>#</th>
+        <th>User</th>
+        <th>Description</th>
+        <th>Done</th>
+        <th></th>
         {% for todo in todos %}
-            <tr>
+            <tr style="{{ 'text-decoration: line-through;' if todo.completed else '' }}">
                 <td>{{ todo.id }}</td>
-                <td>{{ todo.user_id }}</td>
+                <td>{{ todo.username }}</td>
                 <td>
                     <a href="{{ url_for('todo', id=todo.id) }}">
                        {{ todo.description }}
                     </a>
+                </td>
+                <td>
+                    <form method="post" action="{{ url_for('todo_toggle', id=todo.id) }}">
+                        <button type="submit" class="btn btn-xs btn-blue"><span class="glyphicon glyphicon-{{ 'check' if todo.completed else 'unchecked' }} glyphicon-white"></span></button>
+                    </form>
                 </td>
                 <td>
                     <form method="post" action="{{ url_for('todo_delete', id=todo.id) }}">

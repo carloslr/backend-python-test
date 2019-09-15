@@ -1,17 +1,19 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   password_salt VARCHAR(255),
   login_count INTEGER NOT NULL DEFAULT 0,
   login_fail INTEGER NOT NULL DEFAULT 0,
-  last_login DATETIME
+  last_login DATETIME,
+  block_until DATETIME
 );
+CREATE UNIQUE INDEX un_users_username ON users(username);
 
 DROP TABLE IF EXISTS todos;
 CREATE TABLE todos (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,
   description VARCHAR(255),
   completed TINYINT DEFAULT 0,
