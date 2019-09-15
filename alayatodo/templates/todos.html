@@ -41,5 +41,22 @@
             </form>
         </tr>
     </table>
+    <div class="container row">
+        <ul class="pagination">
+        {% if pagination.page > 1 %}
+            <li><a href="{{ url_for('todo_list', page=(pagination.page - 1)) }}">&laquo;</a></li>
+        {% endif %}
+        {%- for page in range(1, pagination.total + 1) %}
+            {% if page != pagination.page %}
+                <li><a href="{{ url_for('todo_list', page=page) }}">{{ page }}</a></li>
+            {% else %}
+                <li class="active"><a href="#">{{ page }}</a></li>
+            {% endif %}
+        {%- endfor %}
+        {% if pagination.page < pagination.total %}
+            <li><a href="{{ url_for('todo_list', page=(pagination.page + 1)) }}">&raquo;</a></li>
+        {% endif %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

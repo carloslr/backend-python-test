@@ -35,14 +35,16 @@ def todo_json(id):
 
 @app.route('/todo', methods=['GET'])
 @app.route('/todo/', methods=['GET'])
+@app.route('/todo/page/<int:page>', methods=['GET'])
 @login_required
-def todos():
-    todos = todo_service.get_all()
-    return render_template('todos.html', todos=todos)
+def todo_list(page = 1):
+    [todos, pagination] = todo_service.get_all(page)
+    return render_template('todos.html', todos=todos, pagination=pagination)
 
 
 @app.route('/todo', methods=['POST'])
 @app.route('/todo/', methods=['POST'])
+@app.route('/todo/page/<int:page>', methods=['POST'])
 @login_required
 def todos_POST():
     ok = todo_service.create_todo(request.form.get('description', ''))

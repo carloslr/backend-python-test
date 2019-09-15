@@ -1,6 +1,8 @@
 from alayatodo import get_db
 from flask import session
 
+from alayatodo.helper.pagination import query
+
 def get_by_id(id):
     cur = get_db().execute("""
         SELECT
@@ -18,8 +20,8 @@ def get_by_id(id):
     return cur.fetchone()
 
 
-def get_all(page = 1):
-    cur = get_db().execute("""
+def get_all(page = 1, limit = 5):
+    return query("""
         SELECT
             t.id,
             u.username,
@@ -30,8 +32,16 @@ def get_all(page = 1):
             ON u.id = t.user_id
         WHERE t.user_id = ?
         ORDER BY t.completed, t.id
-    """, (session['user']['id'], ))
-    return cur.fetchall()
+        """,
+        (session['user']['id'], ),
+        page,
+        limit
+    )
+    pagination = {
+        'total': 5,
+        'page': page,
+    }
+    return cur.fetchall(), pagination
 
 
 def create_todo(description):
