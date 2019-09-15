@@ -30,7 +30,7 @@ Credentials:
 ### Installation
 **/!\ You need to fork this repository. See [How to submit your work?](#how-to-submit-your-work)**
 ```sh
-virtualenv .
+python3 -m venv .
 bin/pip install -r requirements.txt
 bin/python main.py initdb
 bin/python main.py
